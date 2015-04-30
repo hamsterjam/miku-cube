@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<title>WebGL tests</title>
+<meta charset="UTF-8">
+
+<script id="test-vert" type="x-shader/x-vertex">
+attribute vec3 aVertPos;
+attribute vec2 aTexCoord;
+
+uniform mat4 uPMatrix;
+uniform mat4 uMVMatrix;
+
+varying vec2 vTexCoord;
+
+void main(void) {
+	vTexCoord = aTexCoord;
+	gl_Position = uPMatrix * uMVMatrix * vec4(aVertPos, 1.0);
+}
+</script>
+
+<script id="test-frag" type="x-shader/x-fragment">
+precision mediump float;
+
+varying vec2 vTexCoord;
+
+uniform sampler2D uTexture;
+
+void main(void) {
+	gl_FragColor = texture2D(uTexture, vTexCoord);
+}
+</script>
+
+<script src="web-gl-utils.js" type="text/javascript"></script>
+<script src="gl-matrix-min.js" type="text/javascript"></script>
+<script src="mikumin.js" type="text/javascript"></script>
+
+</head>
+<body onLoad="startWebGL('test-canvas', 'test-vert', 'test-frag');">
+
+<canvas id="test-canvas" style="border: none;" width="500" height="500"></canvas>
+
+</body>
+</html>
